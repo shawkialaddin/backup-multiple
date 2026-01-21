@@ -4,10 +4,10 @@
       "db_name": "prod_db",
       "backup_location": "/backups/odoo/",
       "prefix": "prod",
+      "retention": { "value": 5, "unit": "minutes" },
       "sources": [
         { "url": "https://odoo-primary.example.com", "db_password": "MASTERPWD1" },
-        { "url": "https://odoo-secondary.example.com", "db_password": "MASTERPWD1" },
-        { "url": "https://odoo-dr.example.com", "db_password": "MASTERPWD2" }
+        { "url": "https://odoo-secondary.example.com", "db_password": "MASTERPWD1" }
       ]
     }
   ]
