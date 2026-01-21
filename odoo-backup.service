@@ -1,0 +1,15 @@
+[Unit]
+Description=Odoo Backup Script
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/odoo-backup
+Restart=always
+RestartSec=10
+User=root
+WorkingDirectory=/root/backup-script
+
+[Install]
+WantedBy=multi-user.target
