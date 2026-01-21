@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+APP_DIR="/root/backup-script"
+PYTHON_BIN="/usr/bin/python3"
+SCRIPT="${APP_DIR}/main.py"
+LOG_DIR="/var/log/odoo-backup"
+LOG_FILE="${LOG_DIR}/odoo-backup.log"
+LOCK_FILE="/var/lock/odoo-backup.lock"
+
+mkdir -p "${LOG_DIR}"
+
+cd "${APP_DIR}"
+
+# Prevent multiple instances
+exec 9>"${LOCK_FILE}"
+if ! flock -n 9; then
+  echo "$(date '+%F %T') Another backup process is already running. Exiting." >>"${LOG_FILE}"
+  exit 0
+fi
+
+echo "$(date '+%F %T') Starting Odoo backup script..." >>"${LOG_FILE}"
+exec "${PYTHON_BIN}" "${SCRIPT}" >>"${LOG_FILE}" 2>&1
